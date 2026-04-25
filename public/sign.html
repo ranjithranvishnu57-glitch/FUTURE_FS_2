@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup | Mini CRM</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+  <div class="left">
+    <h1>Mini CRM</h1>
+    <p>Create your account and start managing leads 🚀</p>
+  </div>
+
+  <div class="right">
+    <div class="form-box">
+
+      <h2>Create Account</h2>
+
+      <div class="input-group">
+        <input type="email" id="email" required>
+        <label>Name</label>
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" required>
+        <label>Email</label>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" required>
+        <label>Password</label>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="confirm" required>
+        <label>Confirm Password</label>
+      </div>
+
+      <!-- 🔥 IMPORTANT CHANGE -->
+      <button type="button" onclick="signup()">Signup</button>
+
+      <p class="signup">
+        Already have account? <a href="login.html">Login</a>
+      </p>
+
+      <!-- 🔥 message show -->
+      <p id="msg" style="color:red; margin-top:10px;"></p>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="./sign.js"></script>
+
+</body>
+</html>

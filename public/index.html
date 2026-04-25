@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini CRM Dashboard</title>
+  <link rel="stylesheet" href="index.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    #statusChart {
+      max-width: 500px;
+      margin: 20px auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>Mini CRM</h2>
+    <ul>
+      <li class="active" onclick="showSection('dashboard', event)">Dashboard</li>
+      <li onclick="showSection('leads', event)">Leads</li>
+      <li onclick="showSection('reports', event)">Reports</li>
+      <li onclick="logout()">Logout</li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <input type="text" id="searchInput" placeholder="🔍 Search leads...">
+      
+        <div class="user" onclick="toggleProfile(event)">
+          👤 Admin
+          <div class="profile-dropdown" id="profileMenu">
+            <p><strong>Admin</strong></p>
+            <p>admin@gmail.com</p>
+            <hr>
+            <p onclick="openSettings()">⚙️ Settings</p>
+            <p onclick="logout()">🚪 Logout</p>
+          </div>
+</div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard-section" class="section active">
+      <div class="dashboard-grid">
+        <div class="stats">
+          <div class="card">Total Leads <span id="total">0</span></div>
+          <div class="card">Converted <span id="converted">0</span></div>
+          <div class="card">Pending <span id="pending">0</span></div>
+          <div class="card">Today Follow-ups <span id="todayFollow">0</span></div>
+        </div>
+
+        <div class="right-box">
+          <h3>📋 Recent Leads</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody id="recentTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADS -->
+    <div id="leads-section" class="section">
+      <div class="controls">
+        <select id="filter" onchange="filterLeads()">
+          <option value="">All</option>
+          <option>New</option>
+          <option>Contacted</option>
+          <option>Converted</option>
+        </select>
+
+        <button onclick="openModal()">+ Add Lead</button>
+        
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Follow Up</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="table"></tbody>
+      </table>
+    </div>
+
+    <!-- REPORTS -->
+    <div id="reports-section" class="section">
+      <h2>📊 Reports</h2>
+
+      <div class="stats">
+        <div class="card">Total Leads <span id="r-total">0</span></div>
+        <div class="card">Converted <span id="r-converted">0</span></div>
+        <div class="card">Pending <span id="r-pending">0</span></div>
+        <div class="card">Conversion Rate <span id="conversionRate">0%</span></div>
+      </div>
+
+      <div class="report-grid">
+        <div class="report-box">
+          <h3>📋 Status Breakdown</h3>
+          <ul id="statusList"></ul>
+        </div>
+
+        <div class="report-box">
+          <h3>📅 Follow-up Summary</h3>
+          <ul id="reportFollow"></ul>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <h3>📈 Leads by Status</h3>
+        <canvas id="statusChart"></canvas>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3>Add Lead</h3>
+
+    <input id="name" placeholder="Name">
+    <input id="email" placeholder="Email">
+    <input id="phone" placeholder="Phone">
+
+    <select id="status">
+      <option>New</option>
+      <option>Contacted</option>
+      <option>Converted</option>
+    </select>
+
+    <input type="date" id="followUp">
+
+    <button onclick="addLead()">Save</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<script src="index.js"></script>
+
+<script>
+  if (!localStorage.getItem("user")) {
+    window.location.href = "login.html";
+  }
+
+  
+  function showSection(name, e) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(name + "-section").classList.add("active");
+
+    document.querySelectorAll(".sidebar li").forEach(li => li.classList.remove("active"));
+    if (e) e.target.classList.add("active");
+
+    // 🔥 KEY FIXES
+    if (name === "leads") {
+      load(); 
+    }
+
+    if (name === "reports") {
+      setTimeout(() => load(), 200);
+    }
+  }
+
+  window.onload = function () {
+    load();
+  };
+</script>
+
+</body>
+</html>

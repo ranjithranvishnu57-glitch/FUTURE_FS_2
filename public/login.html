@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Mini CRM</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Left Branding -->
+  <div class="left">
+    <h1>Mini CRM</h1>
+    <p>
+      Manage your leads efficiently, track customer interactions,  
+      and grow your business faster 🚀
+    </p>
+  </div>
+
+  <!-- Right Login -->
+  <div class="right">
+    <div class="form-box">
+
+      <h2>Login In</h2>
+
+      <div class="input-group">
+        <input type="email" id="email" required>
+        <label>Email</label>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" required>
+        <label>Password</label>
+      </div>
+
+      <div class="options">
+        <label><input type="checkbox"> Remember me</label>
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <button onclick="login()">Login</button>
+
+      <p class="signup">
+        New here? <a href="sign.html">Create account</a>
+      </p>
+
+      <p id="msg"></p>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ✅ SCRIPT ADDED -->
+<script>
+  // Auto redirect if already logged in
+  if (localStorage.getItem("user")) {
+    window.location.href = "index.html";
+  }
+
+  function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    // Simple demo login
+    if (email === "admin@gmail.com" && password === "123456") {
+      localStorage.setItem("user", "admin");
+
+      // Redirect to dashboard
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("msg").innerText = "Invalid email or password ❌";
+    }
+  }
+</script>
+
+</body>
+</html>
